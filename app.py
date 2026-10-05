@@ -19,7 +19,7 @@ para visualizar las **Formas Modales** y los **Nodos de Vibración**.
 # 1. CONFIGURACIÓN DEL SISTEMA M-DOF
 # ==============================================================================
 st.sidebar.header("🕹️ Parámetros del Sistema")
-n_dof = st.sidebar.radio("Número de Grados de Libertad (N-DOF):", [27, 28])
+n_dof = st.sidebar.radio("Número de Grados de Libertad (N-DOF):", [2, 3])
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("🛠️ Propiedades de Masas y Rigideces")
@@ -129,10 +129,10 @@ with col_perfil:
 with col_anim:
   st.subheader("🏗️ Animación del Movimiento Modal")
 
-  t_sim = np.linspace(0, 2.0 / f_n, 60)
+  t_sim = np.linspace(0, 2.0 / f_n[0], 60)
 
   if "Modo" in modo_sel:
-    idx_m = int(modo_sel.split()[3]) - 1
+    idx_m = int(modo_sel.split()[1]) - 1
     w_act = w_n[idx_m]
     modo_vec = evecs_norm[:, idx_m]
     x_t_anim = np.outer(modo_vec, np.cos(w_act * t_sim)) * 0.15
@@ -154,7 +154,7 @@ with col_anim:
 
     traza_masas = go.Scatter(
         x=pos_actuales,
-        y= * n_dof,
+        y=[0] * n_dof,
         mode="markers+text",
         marker=dict(size=35, color="#1f77b4"),
         text=[f"m{i+1}" for i in range(n_dof)],
@@ -176,7 +176,7 @@ with col_anim:
       data=[
           go.Scatter(
               x=x_base,
-              y= * n_dof,
+              y=[0] * n_dof,
               mode="markers+text",
               marker=dict(size=35, color="#1f77b4"),
               text=[f"m{i+1}" for i in range(n_dof)],
